@@ -49,8 +49,8 @@ fun HomeView() {
                 .fillMaxSize()
                 .padding(it)
         ) {
-            items(DummyWish.wishList) {
-                wish -> WishItem(wish = wish, onClick = {})
+            items(DummyWish.wishList) { wish ->
+                WishItem(wish = wish, onClick = {})
             }
         }
     }
@@ -72,4 +72,3 @@ fun WishItem(wish: Wish, onClick: () -> Unit) {
         }
     }
 }
-
