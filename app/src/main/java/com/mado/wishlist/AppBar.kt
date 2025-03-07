@@ -22,23 +22,29 @@ fun AppBarView(
     title: String,
     onBackNavClicked: () -> Unit = {}
 ) {
-    val navigationIcon: (@Composable () -> Unit)? = {
-        IconButton(onClick = { onBackNavClicked() }) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                tint = Color.White,
-                contentDescription = null
-            )
+    val navigationIcon: (@Composable () -> Unit)? = if (!title.contains("Wishlist")) {
+        {
+            IconButton(onClick = { onBackNavClicked() }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    tint = Color.White,
+                    contentDescription = null
+                )
+            }
         }
+    } else {
+        null
     }
 
-    TopAppBar (
+    TopAppBar(
         title = {
-            Text(text = title,
+            Text(
+                text = title,
                 color = colorResource(id = R.color.white),
                 modifier = Modifier
                     .padding(start = 4.dp)
-                    .heightIn(max = 24.dp))
+                    .heightIn(max = 24.dp)
+            )
         },
         navigationIcon = navigationIcon,
         elevation = 3.dp,
