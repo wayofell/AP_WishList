@@ -14,5 +14,6 @@ object DummyWish {
         Wish(title = "Ipad Pro M6", description = "Bekbol wanna buy Ipad"),
         Wish(title = "Ipad Ultra M7", description = "Alexandr wanna buy Ipad"),
         Wish(title = "Ipad Mega M8", description = "Danila wanna buy Ipad"),
+        Wish(title = "Lexus WTF", description = "Japan OMG!"),
     )
 }
