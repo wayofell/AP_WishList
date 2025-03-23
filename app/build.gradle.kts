@@ -62,14 +62,20 @@ dependencies {
     val compose_version  = "1.7.8"
     val room = "2.6.1"
 
-    // Room
-    implementation("androidx.room:room-runtime:$room")
-    implementation("androidx.room:room-ktx:$room")
-    kapt("androidx.room:room-compiler:$room")
-
     implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation("androidx.compose.ui:ui:$compose_version")
     implementation("androidx.compose.material:material:$compose_version")
-//    implementation("androidx.ui:ui-tooling-preview:$compose_version")
     implementation("androidx.compose.ui:ui-tooling-preview:$compose_version")
+
+    // Room
+    implementation("androidx.room:room-runtime:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    implementation("androidx.room:room-paging:2.6.1")
+    implementation("androidx.room:room-rxjava2:2.6.1")
+    implementation("androidx.room:room-rxjava3:2.6.1")
+    implementation("androidx.room:room-guava:2.6.1")
+    implementation("androidx.room:room-testing:2.6.1")
+
+
 }

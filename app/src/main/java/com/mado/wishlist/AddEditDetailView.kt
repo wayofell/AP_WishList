@@ -26,6 +26,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.mado.wishlist.data.Wish
 
 @Composable
 fun AddEditDetailView(
@@ -66,9 +67,13 @@ fun AddEditDetailView(
             Spacer(modifier = Modifier.height(10.dp))
             Button(onClick = {
                 if (viewModel.wishTitleState.isNotEmpty() && viewModel.wishDescriptionState.isNotEmpty()) {
-                    // TODO UpdateWish
-                } else {
-                    // TODO AddWish
+                    val wish = Wish(id = id, title = viewModel.wishTitleState, description = viewModel.wishDescriptionState)
+                    if (id != 0L) {
+                        viewModel.updateWish(wish)
+                    } else {
+                        viewModel.addWish(wish)
+                    }
+                    navController.navigateUp()
                 }
             }) {
                 Text(

@@ -10,18 +10,20 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.mado.wishlist.data.DummyWish
 import com.mado.wishlist.data.Wish
 import androidx.navigation.NavController
 
 @Composable
 fun HomeView(navController: NavController, viewModel: WishViewModel) {
     val context = LocalContext.current
+    val wishes by viewModel.allWishes.collectAsState(initial = emptyList())
 
     Scaffold(
         topBar = {
@@ -50,7 +52,7 @@ fun HomeView(navController: NavController, viewModel: WishViewModel) {
                 .fillMaxSize()
                 .padding(it)
         ) {
-            items(DummyWish.wishList) { wish ->
+            items(wishes) { wish ->
                 WishItem(wish = wish, onClick = {})
             }
         }

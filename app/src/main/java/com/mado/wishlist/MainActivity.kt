@@ -9,10 +9,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.mado.wishlist.ui.theme.WishListTheme
 import androidx.navigation.compose.rememberNavController
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.mado.wishlist.data.WishDatabase
+import com.mado.wishlist.data.WishRepository
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +26,9 @@ class MainActivity : ComponentActivity() {
             WishListTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     val navController: NavHostController = rememberNavController()
-                    val viewModel: WishViewModel = viewModel()
+                    val database = WishDatabase.getDatabase(applicationContext)
+                    val repository = WishRepository(database.wishDao())
+                    val viewModel: WishViewModel = viewModel(factory = WishViewModelFactory(repository))
                     Navigation(navController = navController, viewModel = viewModel)
                 }
             }
@@ -30,10 +36,20 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    WishListTheme {
-        HomeView(navController = rememberNavController(), viewModel = viewModel())
+class WishViewModelFactory(private val repository: WishRepository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(WishViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return WishViewModel(repository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
+
+//@Preview(showBackground = true)
+//@Composable
+//fun DefaultPreview() {
+//    WishListTheme {
+//        HomeView(navController = rememberNavController(), viewModel = viewModel())
+//    }
+//}
