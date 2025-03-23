@@ -1,7 +1,5 @@
 package com.mado.wishlist
 
-import android.R.attr.title
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
@@ -20,11 +18,11 @@ import androidx.compose.ui.unit.max
 @Composable
 fun AppBarView(
     title: String,
-    onBackNavClicked: () -> Unit = {}
+    onNavClicked: () -> Unit = {}
 ) {
     val navigationIcon: (@Composable () -> Unit)? = if (!title.contains("Wishlist")) {
         {
-            IconButton(onClick = { onBackNavClicked() }) {
+            IconButton(onClick = { onNavClicked() }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     tint = Color.White,
