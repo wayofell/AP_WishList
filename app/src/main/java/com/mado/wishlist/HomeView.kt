@@ -68,12 +68,66 @@ fun HomeView(navController: NavController, viewModel: WishViewModel) {
     }
 }
 
+// Удаление при свайпе справа налево
+
+//@OptIn(ExperimentalMaterialApi::class)
+//@Composable
+//fun WishItem(wish: Wish, onDelete: () -> Unit) {
+//    val dismissState = rememberDismissState(
+//        confirmStateChange = {
+//            if (it == DismissValue.DismissedToEnd) {
+//                onDelete()
+//                true
+//            } else {
+//                false
+//            }
+//        }
+//    )
+//
+//    SwipeToDismiss(
+//        state = dismissState,
+//        directions = setOf(DismissDirection.StartToEnd),
+//        dismissThresholds = { FractionalThreshold(0.5f) },
+//        background = {
+//            Box(
+//                modifier = Modifier
+//                    .fillMaxSize()
+//                    .padding(10.dp)
+//                    .background(Color.Red),
+//                contentAlignment = Alignment.CenterStart
+//            ) {
+//                Icon(
+//                    imageVector = Icons.Default.Delete,
+//                    contentDescription = "Delete",
+//                    tint = Color.White,
+//                    modifier = Modifier.padding(start = 16.dp)
+//                )
+//            }
+//        },
+//        dismissContent = {
+//            Card(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(top = 8.dp, start = 8.dp, end = 8.dp),
+//                elevation = 10.dp,
+//                backgroundColor = Color.White
+//            ) {
+//                Column(modifier = Modifier.padding(16.dp)) {
+//                    Text(text = wish.title, fontWeight = FontWeight.ExtraBold)
+//                    Text(text = wish.description)
+//                }
+//            }
+//        }
+//    )
+//}
+
+// Удаление при свайпе слева направо
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun WishItem(wish: Wish, onDelete: () -> Unit) {
     val dismissState = rememberDismissState(
         confirmStateChange = {
-            if (it == DismissValue.DismissedToEnd) {
+            if (it == DismissValue.DismissedToStart) {
                 onDelete()
                 true
             } else {
@@ -84,7 +138,7 @@ fun WishItem(wish: Wish, onDelete: () -> Unit) {
 
     SwipeToDismiss(
         state = dismissState,
-        directions = setOf(DismissDirection.StartToEnd),
+        directions = setOf(DismissDirection.EndToStart),
         dismissThresholds = { FractionalThreshold(0.5f) },
         background = {
             Box(
@@ -92,13 +146,13 @@ fun WishItem(wish: Wish, onDelete: () -> Unit) {
                     .fillMaxSize()
                     .padding(10.dp)
                     .background(Color.Red),
-                contentAlignment = Alignment.CenterStart
+                contentAlignment = Alignment.CenterEnd
             ) {
                 Icon(
                     imageVector = Icons.Default.Delete,
                     contentDescription = "Delete",
                     tint = Color.White,
-                    modifier = Modifier.padding(start = 16.dp)
+                    modifier = Modifier.padding(end = 16.dp)
                 )
             }
         },
@@ -117,5 +171,4 @@ fun WishItem(wish: Wish, onDelete: () -> Unit) {
             }
         }
     )
-
 }
