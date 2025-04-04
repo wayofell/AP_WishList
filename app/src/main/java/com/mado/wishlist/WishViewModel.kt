@@ -34,4 +34,11 @@ class WishViewModel(private val repository: WishRepository) : ViewModel() {
             repository.updateWish(wish)
         }
     }
+
+    fun deleteWish(wish: Wish) {
+        viewModelScope.launch {
+            repository.deleteWish(wish)
+        }
+    }
+
 }

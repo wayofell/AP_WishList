@@ -1,6 +1,7 @@
 package com.mado.wishlist
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,9 +10,11 @@ import androidx.compose.material.*
 import androidx.compose.material3.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -53,25 +56,83 @@ fun HomeView(navController: NavController, viewModel: WishViewModel) {
                 .padding(it)
         ) {
             items(wishes) { wish ->
-                WishItem(wish = wish, onClick = {})
+                WishItem(
+                    wish = wish,
+                    onDelete = {
+                        viewModel.deleteWish(wish)
+                        Toast.makeText(context, "Wish deleted", Toast.LENGTH_SHORT).show()
+                    }
+                )
             }
         }
     }
 }
 
+//@Composable
+//fun WishItem(wish: Wish, onClick: () -> Unit) {
+//    Card(
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .padding(top = 8.dp, start = 8.dp, end = 8.dp)
+//            .clickable { onClick() },
+//        elevation = 10.dp,
+//        backgroundColor = Color.White
+//    ) {
+//        Column(modifier = Modifier.padding(16.dp)) {
+//            Text(text = wish.title, fontWeight = FontWeight.ExtraBold)
+//            Text(text = wish.description)
+//        }
+//    }
+//}
+
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun WishItem(wish: Wish, onClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp, start = 8.dp, end = 8.dp)
-            .clickable { onClick() },
-        elevation = 10.dp,
-        backgroundColor = Color.White
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = wish.title, fontWeight = FontWeight.ExtraBold)
-            Text(text = wish.description)
+fun WishItem(wish: Wish, onDelete: () -> Unit) {
+    val dismissState = rememberDismissState(
+        confirmStateChange = {
+            if (it == DismissValue.DismissedToEnd) {
+                onDelete()
+                true
+            } else {
+                false
+            }
         }
-    }
+    )
+
+    SwipeToDismiss(
+        state = dismissState,
+        directions = setOf(DismissDirection.StartToEnd),
+        dismissThresholds = { FractionalThreshold(0.5f) },
+        background = {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(10.dp)
+                    .background(Color.Red),
+                contentAlignment = Alignment.CenterStart
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = "Delete",
+                    tint = Color.White,
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+            }
+        },
+        dismissContent = {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, start = 8.dp, end = 8.dp),
+                elevation = 10.dp,
+                backgroundColor = Color.White
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(text = wish.title, fontWeight = FontWeight.ExtraBold)
+                    Text(text = wish.description)
+                }
+            }
+        }
+    )
+
 }
