@@ -1,6 +1,7 @@
 package com.mado.wishlist
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -10,9 +11,11 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun Navigation(
     viewModel: WishViewModel = viewModel(),
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    modifier: Modifier = Modifier
 ) {
     NavHost(
+        modifier = modifier,
         navController = navController,
         startDestination = Screen.HomeScreen.route,
     ) {
